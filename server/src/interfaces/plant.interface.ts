@@ -26,6 +26,7 @@ export interface PlantDescription {
     growthRate: string;
     description: string;
     careLevel: string;
+    image: string;
   }
 
 
@@ -35,4 +36,13 @@ export interface PlantDescription {
     perfectTemperature: number;
     perfectWateringFrequency: string;
     perfectHumidity: number;
+  }
+
+  export interface PlantInsight {
+    temperatureHigher: string;
+    temperatureLower: string;
+    humidityHigher: string;
+    humidityLower: string;
+    precipitationHigher: string;
+    precipitationLower: string;
   }

@@ -22,20 +22,16 @@ export class LogicService {
     async analyzePlants(analyzeRequest: AnalyzeRequest): Promise<PlantStat[]> {
         const analyzedPlants: PlantStat[] = [];
 
-        const weatherData: Weather[] = await this.getWeatherVariation(analyzeRequest.duration, analyzeRequest.address);
-        console.log("Weather Data");
+        let weatherData: Weather[] = await this.getWeatherVariation(analyzeRequest.duration, analyzeRequest.address);
+        this.adjustWeatherData(weatherData);
         const plants = analyzeRequest.plants;
         for (let plant of plants) {
-            console.log("for loop", plant.id);
             const plantDescription: PlantDescription = this.setPlantDescription(await this.plantService.getPlantById(plant.id));
-            console.log("Plant Description");
             const report: PlantReport =  await this.groqService.generatePlantReport(plantDescription, weatherData);
-            console.log("Plant Report");
             const analyzedPlant = {
                 plant: plantDescription,
                 report: report
             }
-            console.log("Analyzed Plant");
             analyzedPlants.push(analyzedPlant);
         }
 
@@ -47,6 +43,36 @@ export class LogicService {
         return this.meteomaticsService.getWeatherVariation(interval, address);
     }
 
+
+    private adjustWeatherData(weatherData: Weather[]): void {
+        if (weatherData.length > 10) {
+            const reducedWeatherData: Weather[] = [];
+            for (let i = 0; i < weatherData.length; i += 7) {
+                const chunk = weatherData.slice(i, i + 7);
+                const averageWeather = this.calculateAverageWeather(chunk);
+                reducedWeatherData.push(averageWeather);
+            }
+            weatherData = reducedWeatherData;
+        }
+    
+        for (let weather of weatherData) {
+            weather.temperatureC = Math.round(weather.temperatureC);
+            weather.precipitationMM = Math.round(weather.precipitationMM);
+            weather.relativeHumidity = Math.round(weather.relativeHumidity);
+        }
+        console.log(weatherData);
+    }
+    
+    private calculateAverageWeather(chunk: Weather[]): Weather {
+        const length = chunk.length;
+        const averageWeather: Weather = {
+            date: chunk[0].date,
+            temperatureC: chunk.reduce((sum, weather) => sum + weather.temperatureC, 0) / length,
+            precipitationMM: chunk.reduce((sum, weather) => sum + weather.precipitationMM, 0) / length,
+            relativeHumidity: chunk.reduce((sum, weather) => sum + weather.relativeHumidity, 0) / length,
+        };
+        return averageWeather;
+    }
 
     private setPlantDescription(plant: any): PlantDescription {
         return {
@@ -70,6 +96,7 @@ export class LogicService {
             growthRate: plant.growth_rate, // growth rate ex: fast
             description: plant.description,
             careLevel: plant.care_level, // care level ex: Medium
+            image: plant.default_image.regular_url,
 
         }
     }
