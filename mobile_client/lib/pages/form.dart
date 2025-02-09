@@ -6,15 +6,18 @@ import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:mobile_client/dict/dict.dart';
 import 'package:mobile_client/models/analyse_request.dart';
-import 'package:mobile_client/models/environment.dart';
+import 'package:mobile_client/services/api_service.dart';
 import 'package:mobile_client/widget/dropdown.dart';
 import 'dart:convert';
 import 'package:mobile_client/widget/map.dart';
+import 'package:mobile_client/services/plant_data_service.dart';
 
 const List<String> timeList = <String>['Jours', 'Semaines'];
 
 class SearchMapPage extends StatefulWidget {
-  const SearchMapPage({super.key});
+  final ApiService apiService = ApiService();
+
+  SearchMapPage({Key? key}) : super(key: key);
 
   @override
   State<SearchMapPage> createState() => _SearchMapPageState();
@@ -93,8 +96,6 @@ class _SearchMapPageState extends State<SearchMapPage> {
   }
 
   Future<void> sendInfoToServer() async {
-    final url = Uri.parse(Environment.apiBaseUrl);
-
     late int nbJour;
 
     if (selectedTimeDropdownItem == 'Semaines') {
@@ -145,20 +146,20 @@ class _SearchMapPageState extends State<SearchMapPage> {
 
     print(localData);
 
-    // final prefs = await SharedPreferences.getInstance();
-    // prefs.setString('localData', jsonEncode(localData));
+    try {
+      // Call your ApiService to get plant statistics.
+      List<PlantStat> plantStats =
+          await widget.apiService.analyzePlants(analyzeRequest);
+      print("Plant analysis received:");
 
-    // final headers = {'Content-Type': 'application/json'};
-    // final body = jsonEncode(analyzeRequest.toJson());
+      // Save the plant statistics in your service.
+      PlantDataService.instance.setPlantStats(plantStats);
 
-    // final response = await http.post(url, headers: headers, body: body);
-
-    // if (response.statusCode == 200) {
-    //   print('Data sent successfully');
-    //   Navigator.pushReplacementNamed(context, "/results");
-    // } else {
-    //   print('Failed to send data: ${response.statusCode}');
-    // }
+      // Navigate to the plant page.
+      Navigator.pushReplacementNamed(context, "/plant_page");
+    } catch (e) {
+      print("Error analyzing plants: $e");
+    }
   }
 
   @override

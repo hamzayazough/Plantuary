@@ -63,7 +63,6 @@ export interface PlantResponse {
         interval: string;
     };
     seeds: number;
-    attracts: string[];
     propagation: string[];
     hardiness: {
         min: string;
@@ -82,7 +81,7 @@ export interface PlantResponse {
     fruits: boolean;
     edible_fruit: boolean;
     fruit_color: string | null;
-    fruiting_season: string | null;
+    fruitingSeason: string | null;
     harvest_season: string | null;
     harvest_method: string;
     leaf: boolean;

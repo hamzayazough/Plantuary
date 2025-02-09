@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:mobile_client/models/environment.dart';
 import 'package:mobile_client/pages/form.dart';
 import 'package:mobile_client/pages/home.dart';
+import 'package:mobile_client/pages/plant_page.dart';
 
 void main() async {
   await dotenv.load(fileName: Environment.fileName);
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         "/home": (context) => HomePage(),
         "/search-map": (context) => SearchMapPage(),
         "/results": (context) => SearchMapPage(),
+        "/plant_page": (context) => PlantPage(),
       },
     );
   }

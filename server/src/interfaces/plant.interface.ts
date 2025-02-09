@@ -11,17 +11,8 @@ export interface PlantDescription {
     type: string;
     cycle: string;
     watering: string;
-    depthWaterRequired: {
-      unit: string;
-      value: number;
-    };
-    volumeWaterRequired: {
-      unit: string;
-      value: number;
-    };
     sunlight: string[];
-    attracts: string[];
-    fruiting_season: string;
+    fruitingSeason: string | null;
     maintenance: string;
     growthRate: string;
     description: string;

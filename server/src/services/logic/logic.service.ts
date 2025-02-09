@@ -35,7 +35,12 @@ export class LogicService {
             analyzedPlants.push(analyzedPlant);
         }
 
-
+        analyzedPlants.forEach(plant => {
+            if (plant.plant.fruitingSeason === undefined) {
+                plant.plant.fruitingSeason = null;
+            }
+            console.log(plant);
+        });
         return analyzedPlants;
     }
 
@@ -43,7 +48,7 @@ export class LogicService {
         return this.meteomaticsService.getWeatherVariation(interval, address);
     }
 
-
+    
     private adjustWeatherData(weatherData: Weather[]): void {
         if (weatherData.length > 10) {
             const reducedWeatherData: Weather[] = [];
@@ -81,17 +86,8 @@ export class LogicService {
             type: plant.type, //exmple tree
             cycle: plant.cycle, //example perennial
             watering: plant.watering,
-            depthWaterRequired: {
-                unit: plant.depth_water_requirement.unit,
-                value: plant.depth_water_requirement.value
-            },
-            volumeWaterRequired: {
-                unit: plant.volume_water_requirement.unit,
-                value: plant.volume_water_requirement.value
-            },
             sunlight: plant.sunlight, // array of sunlight ex: Part shade
-            attracts: plant.attracts, // array of animals ex: [bees]
-            fruiting_season: plant.fruiting_season, // season of fruiting ex: summer
+            fruitingSeason: plant.fruiting_season, // season of fruiting ex: summer
             maintenance: plant.maintenance, // maintenance ex: low
             growthRate: plant.growth_rate, // growth rate ex: fast
             description: plant.description,

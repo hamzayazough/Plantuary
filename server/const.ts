@@ -14,17 +14,8 @@ Plant Description:
   "type": "${plant.type}",
   "cycle": "${plant.cycle}",
   "watering": "${plant.watering}",
-  "depthWaterRequired": {
-    "unit": "${plant.depthWaterRequired.unit}",
-    "value": ${plant.depthWaterRequired.value}
-  },
-  "volumeWaterRequired": {
-    "unit": "${plant.volumeWaterRequired.unit}",
-    "value": ${plant.volumeWaterRequired.value}
-  },
   "sunlight": ${JSON.stringify(plant.sunlight)},
-  "attracts": ${JSON.stringify(plant.attracts)},
-  "fruiting_season": "${plant.fruiting_season}",
+  "fruitingSeason": "${plant.fruitingSeason}",
   "maintenance": "${plant.maintenance}",
   "growthRate": "${plant.growthRate}",
   "description": "${plant.description}",
