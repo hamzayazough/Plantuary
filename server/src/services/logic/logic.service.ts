@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PlantService } from './../plant/plant.service';
 import { GroqService } from './../groq/groq.service';
 import { MeteomaticsService } from './../meteomatics/meteomatics.service';
@@ -20,11 +20,15 @@ export class LogicService {
     ){}
 
     async analyzePlants(analyzeRequest: AnalyzeRequest): Promise<PlantStat[]> {
+        console.log(`analyzeRequest: ${analyzeRequest}`);
+
         const analyzedPlants: PlantStat[] = [];
 
         let weatherData: Weather[] = await this.getWeatherVariation(analyzeRequest.duration, analyzeRequest.address);
         this.adjustWeatherData(weatherData);
         const plants = analyzeRequest.plants;
+        Logger.log(`plants: ${plants}`);
+        
         for (let plant of plants) {
             const plantDescription: PlantDescription = this.setPlantDescription(await this.plantService.getPlantById(plant.id));
             const report: PlantReport =  await this.groqService.generatePlantReport(plantDescription, weatherData);

@@ -139,7 +139,7 @@ class PlantDescription {
         fruitingSeason: json["fruitingSeason"] ?? json["fruiting_season"] ?? "",
         maintenance: json["maintenance"],
         growthRate: json["growthRate"],
-        description: json["description"],
+        description: json["description"] ?? "",
         careLevel: json["careLevel"] ?? "",
         image: json["image"],
       );
