@@ -1,6 +1,6 @@
 import { Address } from "./address.interface";
 import { AnalysedCrops, Crops } from "./crops-interface";
-import { PlantReq } from "./plant.interface";
+import { PlantDescription, PlantReport, PlantReq } from "./plant.interface";
 
 export interface AnalyzeRequest {
     address: Address;
@@ -9,5 +9,6 @@ export interface AnalyzeRequest {
 }
 
 export interface AnalyseResult {
-    crops: AnalysedCrops[];
+    plant: PlantDescription;
+    report: PlantReport;
 }

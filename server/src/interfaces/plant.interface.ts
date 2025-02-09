@@ -20,18 +20,19 @@ export interface PlantDescription {
       value: number;
     };
     sunlight: string[];
-    pruningMonths: string[];
-    pruningCount: {
-      amount: number;
-      interval: string;
-    };
     attracts: string[];
-    flowering_season: string;
     fruiting_season: string;
     maintenance: string;
     growthRate: string;
-    saltTolerant: boolean;
     description: string;
     careLevel: string;
-    guide: Section[]
+  }
+
+
+  export interface PlantReport {
+    feasibility: number;
+    suggestions: string[];
+    perfectTemperature: number;
+    perfectWateringFrequency: string;
+    perfectHumidity: number;
   }

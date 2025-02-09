@@ -3,6 +3,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import axios from 'axios';
 import * as dotenv from 'dotenv';
 import { Address } from 'src/interfaces/address.interface';
+import { Weather } from 'src/interfaces/weather.interface';
 
 dotenv.config();
 
@@ -35,7 +36,7 @@ export class MeteomaticsService {
         }
     }
 
-    async getWeatherVariation(days: number, address: Address): Promise<any> {
+    async getWeatherVariation(days: number, address: Address): Promise<Weather[]> {
         try {
             const token = await this.getToken();
             const now = new Date().toISOString();
@@ -51,9 +52,9 @@ export class MeteomaticsService {
             const transformedData = dates.map((date: string, index: number) => {
                 return {
                     date: date,
-                    "temp:C": data[0].coordinates[0].dates[index].value,
-                    "precip_24h:mm": data[1].coordinates[0].dates[index].value,
-                    "relative_humidity_2m:p": data[2].coordinates[0].dates[index].value,
+                    temperatureC: data[0].coordinates[0].dates[index].value,
+                    precipitationMM: data[1].coordinates[0].dates[index].value,
+                    relativeHumidity: data[2].coordinates[0].dates[index].value,
                 };
             });
     

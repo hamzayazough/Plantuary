@@ -23,6 +23,7 @@ export class PlantService {
   async getPlantGuideById(id: number): Promise<Section[]> {
     try {
       const url = `${this.API_URL}/species-care-guide-list?key=${this.API_KEY}&species_id=${id}`;
+      console.log(url);
       const response = await firstValueFrom(this.httpService.get(url));
       console.log(response.data.section);
       return response.data.section;
