@@ -17,7 +17,6 @@ export class AppController {
   async analyzePlants(@Body() analyzeRequest: AnalyzeRequest): Promise<PlantStat[]> {
     try {
       const temp = await this.logicService.analyzePlants(analyzeRequest);
-      console.log(temp);
       return temp;
     } catch (error) {
       throw new HttpException('Error analyzing plants', HttpStatus.INTERNAL_SERVER_ERROR);

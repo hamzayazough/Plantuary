@@ -39,8 +39,8 @@ export class LogicService {
             if (plant.plant.fruitingSeason === undefined) {
                 plant.plant.fruitingSeason = null;
             }
-            console.log(plant);
         });
+
         return analyzedPlants;
     }
 
@@ -65,7 +65,6 @@ export class LogicService {
             weather.precipitationMM = Math.round(weather.precipitationMM);
             weather.relativeHumidity = Math.round(weather.relativeHumidity);
         }
-        console.log(weatherData);
     }
     
     private calculateAverageWeather(chunk: Weather[]): Weather {

@@ -17,17 +17,18 @@ class ApiService {
           body: jsonEncode(request.toJson()),
         )
         .timeout(const Duration(seconds: 30));
+    print("Response status: ${response.statusCode}");
+    print("Response body length: ${response.body.length}");
+    print("Response body: ${response.body}");
 
-    if (response.statusCode == 200) {
+    if (response.statusCode >= 200 && response.statusCode < 300) {
       List<dynamic> jsonResponse = jsonDecode(response.body);
-      print("Raw response: ${response.body}");
       return jsonResponse.map((item) => PlantStat.fromJson(item)).toList();
     } else {
       throw Exception("Error analyzing plants: ${response.body}");
     }
   }
 
-  /// POST: Get Weather Variation (Calendar)
   Future<dynamic> getDates(TestConnectionDto request) async {
     final response = await http.post(
       Uri.parse("$baseUrl/calendar"),
