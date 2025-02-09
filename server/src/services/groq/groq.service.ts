@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import Groq from "groq-sdk";
+import Groq from 'groq-sdk';
 import * as dotenv from 'dotenv';
-import { generatePlantPrompt } from './../../../const'
+import { generatePlantPrompt } from './../../../const';
 import { PlantDescription, PlantReport } from 'src/interfaces/plant.interface';
 import { Weather } from 'src/interfaces/weather.interface';
 
@@ -10,7 +10,7 @@ dotenv.config();
 @Injectable()
 export class GroqService {
   private readonly groq = new Groq({ apiKey: process.env.GROQ_API });
-  private readonly MAX_ATTEMPTS = 2;
+  private readonly MAX_ATTEMPTS = 5;
 
   async generatePlantReport(plant: PlantDescription, weatherData: Weather[]): Promise<PlantReport> {
     let attempts = 0;
@@ -20,8 +20,6 @@ export class GroqService {
       attempts++;
       const content = generatePlantPrompt(plant, weatherData);
       try {
-        console.log("content", content);
-        console.log("end point");
         const response = await this.groq.chat.completions.create({
           messages: [
             {
@@ -31,16 +29,22 @@ export class GroqService {
           ],
           model: 'deepseek-r1-distill-llama-70b',
         });
-        console.log("respond daddy", response.choices[0].message);
 
-        // Assuming the response structure has the generated text in:
-        // response.choices[0].message.content
+        // Get the generated text from the response.
         const completionText = response.choices[0].message.content;
         if (!completionText) {
           throw new HttpException('Failed to generate plant report', HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        // Try parsing the JSON output from the model.
-        const parsed = JSON.parse(completionText);
+
+        // Extract the JSON block from the response.
+        const jsonMatch = completionText.match(/{[\s\S]*}/);
+        if (!jsonMatch) {
+          throw new HttpException('No valid JSON found in the response', HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        const jsonString = jsonMatch[0];
+
+        // Parse the extracted JSON string.
+        const parsed = JSON.parse(jsonString);
 
         // Validate if the parsed output matches our expected PlantReport structure.
         if (this.validatePlantReport(parsed)) {
@@ -58,7 +62,7 @@ export class GroqService {
           console.warn(`Rate limit reached. Waiting for ${retryAfterSeconds} seconds before retrying...`);
           await delay(retryAfterSeconds * 1000);
         }
-        // Optionally, you can add additional error handling here for other types of errors.
+        // Optionally, add additional error handling for other types of errors.
       }
     }
 

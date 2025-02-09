@@ -4,7 +4,7 @@ import { GroqService } from './../groq/groq.service';
 import { MeteomaticsService } from './../meteomatics/meteomatics.service';
 import { Address } from 'src/interfaces/address.interface';
 import Groq from 'groq-sdk';
-import { TestConnectionDto } from 'src/interfaces/report.interface';
+import { PlantStat, TestConnectionDto } from 'src/interfaces/report.interface';
 import { AnalyzeRequest } from 'src/interfaces/analyze.interface';
 import { interval } from 'rxjs';
 import { Section } from 'src/interfaces/section.interface';
@@ -19,8 +19,8 @@ export class LogicService {
         private readonly meteomaticsService: MeteomaticsService
     ){}
 
-    async analyzePlants(analyzeRequest: AnalyzeRequest): Promise<any> {
-        const analyzedPlants: any[] = [];
+    async analyzePlants(analyzeRequest: AnalyzeRequest): Promise<PlantStat[]> {
+        const analyzedPlants: PlantStat[] = [];
 
         const weatherData: Weather[] = await this.getWeatherVariation(analyzeRequest.duration, analyzeRequest.address);
         console.log("Weather Data");

@@ -3,7 +3,7 @@ import { AppService } from './app.service';
 import { Address } from './interfaces/address.interface';
 import Groq from 'groq-sdk';
 import { LogicService } from './services/logic/logic.service';
-import { TestConnectionDto } from './interfaces/report.interface';
+import { PlantStat, TestConnectionDto } from './interfaces/report.interface';
 import { AnalyzeRequest } from './interfaces/analyze.interface';
 import { Section } from './interfaces/section.interface';
 @Controller()
@@ -19,7 +19,7 @@ export class AppController {
   }
 
   @Post('analyze-plants')
-  async analyzePlants(@Body() analyzeRequest: AnalyzeRequest): Promise<any> {
+  async analyzePlants(@Body() analyzeRequest: AnalyzeRequest): Promise<PlantStat[]> {
     try {
       console.log('Analyzing plants', analyzeRequest);
       return await this.logicService.analyzePlants(analyzeRequest);
