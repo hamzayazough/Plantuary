@@ -65,11 +65,11 @@ class PlantStat {
 }
 
 class PlantReport {
-  final double feasibility;
+  final int feasibility;
   final List<String> suggestions;
-  final double perfectTemperature;
+  final int perfectTemperature;
   final String perfectWateringFrequency;
-  final double perfectHumidity;
+  final int perfectHumidity;
 
   PlantReport({
     required this.feasibility,
@@ -80,13 +80,20 @@ class PlantReport {
   });
 
   factory PlantReport.fromJson(Map<String, dynamic> json) {
-    return PlantReport(
-      feasibility: json["feasibility"].toDouble(),
-      suggestions: List<String>.from(json["suggestions"]),
-      perfectTemperature: json["perfectTemperature"].toDouble(),
-      perfectWateringFrequency: json["perfectWateringFrequency"],
-      perfectHumidity: json["perfectHumidity"].toDouble(),
-    );
+    print("PlantReport.fromJson called with: $json");
+    try {
+      return PlantReport(
+        feasibility: (json["feasibility"] as num).toInt(),
+        suggestions: List<String>.from(json["suggestions"]),
+        perfectTemperature: (json["perfectTemperature"] as num).toInt(),
+        perfectWateringFrequency: json["perfectWateringFrequency"],
+        perfectHumidity: (json["perfectHumidity"] as num).toInt(),
+      );
+    } catch (e, stackTrace) {
+      print("Error in PlantReport.fromJson: $e");
+      print("StackTrace: $stackTrace");
+      rethrow;
+    }
   }
 }
 
@@ -120,20 +127,27 @@ class PlantDescription {
   });
 
   factory PlantDescription.fromJson(Map<String, dynamic> json) {
-    return PlantDescription(
-      id: json["id"],
-      name: json["name"],
-      type: json["type"],
-      cycle: json["cycle"],
-      watering: json["watering"],
-      sunlight: List<String>.from(json["sunlight"]),
-      fruitingSeason: json["fruitingSeason"] ?? json["fruiting_season"] ?? "",
-      maintenance: json["maintenance"],
-      growthRate: json["growthRate"],
-      description: json["description"],
-      careLevel: json["careLevel"] ?? "",
-      image: json["image"],
-    );
+    print("PlantDescription.fromJson called with: $json");
+    try {
+      return PlantDescription(
+        id: json["id"],
+        name: json["name"],
+        type: json["type"],
+        cycle: json["cycle"],
+        watering: json["watering"],
+        sunlight: List<String>.from(json["sunlight"]),
+        fruitingSeason: json["fruitingSeason"] ?? json["fruiting_season"] ?? "",
+        maintenance: json["maintenance"],
+        growthRate: json["growthRate"],
+        description: json["description"],
+        careLevel: json["careLevel"] ?? "",
+        image: json["image"],
+      );
+    } catch (e, stackTrace) {
+      print("Error in PlantDescription.fromJson: $e");
+      print("StackTrace: $stackTrace");
+      rethrow;
+    }
   }
 }
 

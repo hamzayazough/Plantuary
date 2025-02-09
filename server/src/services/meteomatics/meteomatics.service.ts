@@ -20,7 +20,6 @@ export class MeteomaticsService {
         }
 
         try {
-            console.log("Fetching Meteomatics token");
             const authHeader = "Basic " + Buffer.from(`${this.username}:${this.password}`).toString('base64');
 
             const response = await axios.get("https://login.meteomatics.com/api/v1/token", {
@@ -43,7 +42,6 @@ export class MeteomaticsService {
             const futureDate = new Date();
     
             const url = `https://api.meteomatics.com/${now}P${days}D:PT24H/t_2m:C,precip_24h:mm,relative_humidity_2m:p/${address.latitude},${address.longitude}/json?access_token=${token}`;
-            console.log(url);
             const response = await axios.get(url);
     
             const data = response.data.data;
