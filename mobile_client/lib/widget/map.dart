@@ -2,24 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:mobile_client/models/environment.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  final MapController controller;
+
+  const MapScreen({Key? key, required this.controller}) : super(key: key);
 
   @override
   State<MapScreen> createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
-  final MapController controller = MapController();
   LatLng latLng = const LatLng(48.8584, 2.2945);
 
   @override
   Widget build(BuildContext context) {
-    String mapboxToken = dotenv.env['MAPBOX_ACCESS_TOKEN'] ?? '';
+    String mapboxToken = Environment.mapboxAccessToken;
 
     return FlutterMap(
-      mapController: controller,
+      mapController: widget.controller,
       options: MapOptions(
         initialCenter: latLng,
         initialZoom: 18,
