@@ -7,6 +7,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:mobile_client/dict/dict.dart';
 import 'package:mobile_client/models/analyse_request.dart';
 import 'package:mobile_client/services/api_service.dart';
+import 'package:mobile_client/widget/bottom_bar.dart';
 import 'package:mobile_client/widget/dropdown.dart';
 import 'dart:convert';
 import 'package:mobile_client/widget/map.dart';
@@ -24,6 +25,14 @@ class SearchMapPage extends StatefulWidget {
 }
 
 class _SearchMapPageState extends State<SearchMapPage> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   final MapController _mapController = MapController();
   LatLng _currentLatLng = const LatLng(48.8584, 2.2945);
   final TextEditingController _searchController = TextEditingController();
@@ -366,6 +375,8 @@ class _SearchMapPageState extends State<SearchMapPage> {
           ),
         ],
       ),
+      bottomNavigationBar:
+          BottomBar(selectedIndex: _selectedIndex, onItemTapped: _onItemTapped),
     );
   }
 }
