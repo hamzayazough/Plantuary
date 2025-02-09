@@ -1,0 +1,78 @@
+import { Injectable } from '@nestjs/common';
+import { PlantService } from './../plant/plant.service';
+import { GroqService } from './../groq/groq.service';
+import { MeteomaticsService } from './../meteomatics/meteomatics.service';
+import { Address } from 'src/interfaces/address.interface';
+import Groq from 'groq-sdk';
+import { PlantStat, TestConnectionDto } from 'src/interfaces/report.interface';
+import { AnalyzeRequest } from 'src/interfaces/analyze.interface';
+import { interval } from 'rxjs';
+import { Section } from 'src/interfaces/section.interface';
+import { PlantDescription, PlantReport } from 'src/interfaces/plant.interface';
+import { Weather } from 'src/interfaces/weather.interface';
+@Injectable()
+export class LogicService {
+
+    constructor(
+        private readonly plantService: PlantService,
+        private readonly groqService: GroqService,
+        private readonly meteomaticsService: MeteomaticsService
+    ){}
+
+    async analyzePlants(analyzeRequest: AnalyzeRequest): Promise<PlantStat[]> {
+        const analyzedPlants: PlantStat[] = [];
+
+        const weatherData: Weather[] = await this.getWeatherVariation(analyzeRequest.duration, analyzeRequest.address);
+        console.log("Weather Data");
+        const plants = analyzeRequest.plants;
+        for (let plant of plants) {
+            console.log("for loop", plant.id);
+            const plantDescription: PlantDescription = this.setPlantDescription(await this.plantService.getPlantById(plant.id));
+            console.log("Plant Description");
+            const report: PlantReport =  await this.groqService.generatePlantReport(plantDescription, weatherData);
+            console.log("Plant Report");
+            const analyzedPlant = {
+                plant: plantDescription,
+                report: report
+            }
+            console.log("Analyzed Plant");
+            analyzedPlants.push(analyzedPlant);
+        }
+
+
+        return analyzedPlants;
+    }
+
+    async getWeatherVariation(interval: number, address: Address): Promise<Weather[]> {
+        return this.meteomaticsService.getWeatherVariation(interval, address);
+    }
+
+
+    private setPlantDescription(plant: any): PlantDescription {
+        return {
+            id: plant.id,
+            name: plant.common_name,
+            type: plant.type, //exmple tree
+            cycle: plant.cycle, //example perennial
+            watering: plant.watering,
+            depthWaterRequired: {
+                unit: plant.depth_water_requirement.unit,
+                value: plant.depth_water_requirement.value
+            },
+            volumeWaterRequired: {
+                unit: plant.volume_water_requirement.unit,
+                value: plant.volume_water_requirement.value
+            },
+            sunlight: plant.sunlight, // array of sunlight ex: Part shade
+            attracts: plant.attracts, // array of animals ex: [bees]
+            fruiting_season: plant.fruiting_season, // season of fruiting ex: summer
+            maintenance: plant.maintenance, // maintenance ex: low
+            growthRate: plant.growth_rate, // growth rate ex: fast
+            description: plant.description,
+            careLevel: plant.care_level, // care level ex: Medium
+
+        }
+    }
+
+
+}
