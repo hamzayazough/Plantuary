@@ -9,11 +9,17 @@ class MapScreen extends StatefulWidget {
   const MapScreen({Key? key, required this.controller}) : super(key: key);
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  State<MapScreen> createState() => MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class MapScreenState extends State<MapScreen> {
   LatLng latLng = const LatLng(48.8584, 2.2945);
+
+  void updateMarker(LatLng newLatLng) {
+    setState(() {
+      latLng = newLatLng;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

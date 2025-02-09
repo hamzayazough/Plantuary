@@ -44,14 +44,20 @@ class _DropdownState extends State<Dropdown> {
         );
       }).toList(),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(12), // Smooth rounded corners
+          borderSide: BorderSide(color: Colors.grey.shade400, width: 2),
         ),
+        filled: true,
+        fillColor: Colors.white,
       ),
       dropdownColor: Colors.white,
       isExpanded: true,
-      menuMaxHeight: 200,
+      menuMaxHeight: 250, // Clear scroll when there are many options
+      icon: Icon(Icons.arrow_drop_down_rounded,
+          size: 28, color: Colors.grey[700]), // Modern icon
+      style: TextStyle(color: Colors.black, fontSize: 16),
     );
   }
 }

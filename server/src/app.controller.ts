@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException, HttpStatus, Query, Body, Post } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, Query, Body, Post, Logger } from '@nestjs/common';
 import { Address } from './interfaces/address.interface';
 import Groq from 'groq-sdk';
 import { LogicService } from './services/logic/logic.service';
@@ -17,6 +17,9 @@ export class AppController {
   async analyzePlants(@Body() analyzeRequest: AnalyzeRequest): Promise<PlantStat[]> {
     try {
       const temp = await this.logicService.analyzePlants(analyzeRequest);
+      // Logger.log(`temp: ${temp}`);
+      console.log(`temp: ${temp}`);
+
       return temp;
     } catch (error) {
       throw new HttpException('Error analyzing plants', HttpStatus.INTERNAL_SERVER_ERROR);

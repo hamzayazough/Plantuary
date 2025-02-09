@@ -1,12 +1,11 @@
 // api_service.dart
 import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_client/models/analyse_request.dart';
+import 'package:mobile_client/models/environment.dart';
 
 class ApiService {
-  final String baseUrl =
-      dotenv.env['SERVER_BASE_URL'] ?? 'http://10.0.2.2:3000';
+  final String baseUrl = Environment.serverBaseUrl;
 
   Future<List<PlantStat>> analyzePlants(AnalyzeRequest request) async {
     final response = await http
@@ -17,7 +16,7 @@ class ApiService {
           },
           body: jsonEncode(request.toJson()),
         )
-        .timeout(const Duration(seconds: 30));
+        .timeout(const Duration(seconds: 60));
     print("Response status: ${response.statusCode}");
     print("Response body length: ${response.body.length}");
     print("Response body: ${response.body}");
