@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:mobile_client/models/environment.dart';
+import 'package:mobile_client/pages/calendar_page.dart';
 import 'package:mobile_client/pages/form.dart';
 import 'package:mobile_client/pages/home.dart';
 import 'package:mobile_client/pages/plant_page.dart';

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_client/pages/home.dart';
+import 'package:mobile_client/pages/plant_page.dart';
 
 class BottomBar extends StatelessWidget {
   final int selectedIndex;
@@ -10,7 +12,10 @@ class BottomBar extends StatelessWidget {
     required this.onItemTapped,
   }) : super(key: key);
 
-  void _onItemTapped(BuildContext context, int index) {
+  void _navigate(BuildContext context, int index) {
+    if (index == selectedIndex) return; // Prevent redundant navigation
+
+    Widget nextScreen;
     switch (index) {
       case 0:
         Navigator.pushNamed(context, '/home');
@@ -22,7 +27,12 @@ class BottomBar extends StatelessWidget {
         Navigator.pushNamed(context, '/plant_page');
         break;
     }
-    onItemTapped(index);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => nextScreen),
+    );
+
+    onItemTapped(index); // Update state if needed
   }
 
   @override
@@ -44,7 +54,7 @@ class BottomBar extends StatelessWidget {
       ],
       currentIndex: selectedIndex,
       selectedItemColor: Colors.black,
-      onTap: (index) => _onItemTapped(context, index),
+      onTap: (index) => _navigate(context, index),
     );
   }
 }
