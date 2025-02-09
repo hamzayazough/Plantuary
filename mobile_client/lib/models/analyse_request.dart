@@ -82,20 +82,13 @@ class PlantReport {
   });
 
   factory PlantReport.fromJson(Map<String, dynamic> json) {
-    print("PlantReport.fromJson called with: $json");
-    try {
-      return PlantReport(
-        feasibility: (json["feasibility"] as num).toInt(),
-        suggestions: List<String>.from(json["suggestions"]),
-        perfectTemperature: (json["perfectTemperature"] as num).toInt(),
-        perfectWateringFrequency: json["perfectWateringFrequency"],
-        perfectHumidity: (json["perfectHumidity"] as num).toInt(),
-      );
-    } catch (e, stackTrace) {
-      print("Error in PlantReport.fromJson: $e");
-      print("StackTrace: $stackTrace");
-      rethrow;
-    }
+    return PlantReport(
+      feasibility: json['feasibility'],
+      suggestions: List<String>.from(json['suggestions']),
+      perfectTemperature: json['perfectTemperature'],
+      perfectWateringFrequency: json['perfectWateringFrequency'],
+      perfectHumidity: json['perfectHumidity'],
+    );
   }
 }
 
@@ -106,10 +99,10 @@ class PlantDescription {
   final String cycle;
   final String watering;
   final List<String> sunlight;
-  final String fruitingSeason;
+  final String? fruitingSeason;
   final String maintenance;
   final String growthRate;
-  final String description;
+  final String? description; // Allow description to be nullable
   final String careLevel;
   final String image;
 
@@ -120,36 +113,29 @@ class PlantDescription {
     required this.cycle,
     required this.watering,
     required this.sunlight,
-    required this.fruitingSeason,
+    this.fruitingSeason,
     required this.maintenance,
     required this.growthRate,
-    required this.description,
+    this.description, // Allow description to be nullable
     required this.careLevel,
     required this.image,
   });
 
   factory PlantDescription.fromJson(Map<String, dynamic> json) {
-    print("PlantDescription.fromJson called with: $json");
-    try {
-      return PlantDescription(
-        id: json["id"],
-        name: json["name"],
-        type: json["type"],
-        cycle: json["cycle"],
-        watering: json["watering"],
-        sunlight: List<String>.from(json["sunlight"]),
-        fruitingSeason: json["fruitingSeason"] ?? json["fruiting_season"] ?? "",
-        maintenance: json["maintenance"],
-        growthRate: json["growthRate"],
-        description: json["description"] ?? "",
-        careLevel: json["careLevel"] ?? "",
-        image: json["image"],
-      );
-    } catch (e, stackTrace) {
-      print("Error in PlantDescription.fromJson: $e");
-      print("StackTrace: $stackTrace");
-      rethrow;
-    }
+    return PlantDescription(
+      id: json['id'],
+      name: json['name'],
+      type: json['type'],
+      cycle: json['cycle'],
+      watering: json['watering'],
+      sunlight: List<String>.from(json['sunlight']),
+      fruitingSeason: json['fruitingSeason'],
+      maintenance: json['maintenance'],
+      growthRate: json['growthRate'],
+      description: json['description'] ?? '', // Handle null value
+      careLevel: json['careLevel'],
+      image: json['image'],
+    );
   }
 }
 

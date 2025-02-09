@@ -10,6 +10,7 @@ class PlantDataService {
 
   List<PlantStat> plantStats = [];
   List<Weather> weatherData = [];
+  PlantStat? currentPlantStat;
   int interval = 0;
   Address? address;
 
@@ -22,12 +23,16 @@ class PlantDataService {
     address = address;
   }
 
-  Future<List<Weather>> getWeatherbyAddressAndInterval() async {
+  Future<List<Weather>> getWeatherByAddressAndInterval() async {
     try {
+      print("Fetching weather data");
       ApiService apiService = ApiService();
       if (this.address == null) {
         throw Exception("Address is not set");
       }
+      print(this.address);
+      print("Interval: $interval");
+
       TestConnectionDto request =
           TestConnectionDto(address: this.address!, interval: this.interval);
       List<Weather> weatherData = await apiService.getDates(request);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_client/models/analyse_request.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:mobile_client/services/plant_data_service.dart';
 
@@ -134,7 +135,7 @@ class _PlantPageState extends State<PlantPage> {
                         ),
                         if (_expandedStates[index]) _buildExpandedContent(stat),
                         const SizedBox(height: 10),
-                        _buildTrackOnCalendarButton(),
+                        _buildTrackOnCalendarButton(stat),
                       ],
                     ),
                   ),
@@ -206,7 +207,7 @@ class _PlantPageState extends State<PlantPage> {
     );
   }
 
-  Widget _buildTrackOnCalendarButton() {
+  Widget _buildTrackOnCalendarButton(PlantStat stat) {
     return Center(
       child: ElevatedButton.icon(
         style: ElevatedButton.styleFrom(
@@ -219,6 +220,8 @@ class _PlantPageState extends State<PlantPage> {
         icon: const Icon(Icons.calendar_today, color: Colors.white),
         label: const Text("Track on Calendar", style: TextStyle(fontSize: 16)),
         onPressed: () {
+          PlantDataService.instance.currentPlantStat = stat;
+          Navigator.pushReplacementNamed(context, "/calendar");
           // Navigate to Calendar Page
         },
       ),

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_client/pages/home.dart';
-import 'package:mobile_client/pages/plant_page.dart';
 
 class BottomBar extends StatelessWidget {
   final int selectedIndex;
@@ -13,24 +11,15 @@ class BottomBar extends StatelessWidget {
   }) : super(key: key);
 
   void _navigate(BuildContext context, int index) {
-    if (index == selectedIndex) return; // Prevent redundant navigation
-
-    Widget nextScreen;
+    if (index == selectedIndex) return;
     switch (index) {
       case 0:
         Navigator.pushNamed(context, '/home');
         break;
       case 1:
-        Navigator.pushNamed(context, '/calendar');
-        break;
-      case 2:
         Navigator.pushNamed(context, '/plant_page');
         break;
     }
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => nextScreen),
-    );
 
     onItemTapped(index); // Update state if needed
   }
@@ -42,10 +31,6 @@ class BottomBar extends StatelessWidget {
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Plantuary',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_today),
-          label: 'Calendar',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.grass),
