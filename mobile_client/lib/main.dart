@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         "/home": (context) => HomePage(),
         "/search-map": (context) => SearchMapPage(),
         "/plant_page": (context) => PlantPage(),
-        "/calendar": (context) => CalendarPage(),
+        // "/calendar": (context) => CalendarPage(),
       },
     );
   }

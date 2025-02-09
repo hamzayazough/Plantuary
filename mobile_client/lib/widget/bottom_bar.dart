@@ -27,10 +27,10 @@ class BottomBar extends StatelessWidget {
         Navigator.pushNamed(context, '/plant_page');
         break;
     }
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => nextScreen),
-    );
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => nextScreen),
+    // );
 
     onItemTapped(index); // Update state if needed
   }
