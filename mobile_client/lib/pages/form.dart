@@ -176,269 +176,276 @@ class _SearchMapPageState extends State<SearchMapPage> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 10,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                Center(
-                  child: const Text(
-                    "New Crops for Weather Tracking",
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                const Text(
-                  "Localize the area 🌱",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          hintText: "Enter an address...",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                              color: Colors.green.shade700,
-                              width: 2,
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 15,
-                            horizontal: 20,
-                          ),
-                          suffixIcon: IconButton(
-                            icon: const Icon(Icons.search),
-                            onPressed: _searchAddress,
-                            color: Colors.green.shade700,
-                          ),
-                        ),
-                      ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      offset: Offset(0, 2),
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                Container(
-                  height: 300,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Colors.green, width: 2),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 5,
-                        offset: Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: MapScreen(controller: _mapController),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "Select Crop Options",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "Duration desired",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Row(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: 200,
-                      child: TextField(
-                        controller: _durationController,
-                        decoration: const InputDecoration(
-                          hintText: "Duration Desired",
-                          border: OutlineInputBorder(),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: const Text(
+                        "New Crops for Weather Tracking",
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    Container(
-                      width: 200,
-                      child: Dropdown(
-                        selectedItem: selectedTimeDropdownItem,
-                        listItem: timeList,
-                        onChanged: _onTimeDropdownChanged,
+                    const SizedBox(height: 30),
+                    const Text(
+                      "Localize the area 🌱",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "Crops",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Column(
-                  children: [
+                    const SizedBox(height: 10),
                     Row(
                       children: [
-                        Container(
-                          width: 400,
-                          child: Dropdown(
-                            selectedItem: selectedCropDropdownItem,
-                            listItem: plantDictionary.keys.toList(),
-                            onChanged: _onCropDropdownChanged,
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Container(
-                          width: 120,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Colors.grey.shade400,
-                              width: 2,
-                            ),
-                            color: Colors.white,
-                          ),
+                        Expanded(
                           child: TextField(
-                            controller: _quantityController,
-                            textAlign: TextAlign.center,
+                            controller: _searchController,
                             decoration: InputDecoration(
-                              hintText: "Quantity",
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 10,
-                                horizontal: 20,
-                              ),
+                              hintText: "Enter an address...",
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide.none,
+                                borderSide: BorderSide(
+                                  color: Colors.green.shade700,
+                                  width: 2,
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.white,
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 15,
+                                horizontal: 20,
+                              ),
+                              suffixIcon: IconButton(
+                                icon: const Icon(Icons.search),
+                                onPressed: _searchAddress,
+                                color: Colors.green.shade700,
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () => _addCrop(),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 5,
-                              vertical: 5,
-                            ),
-                            textStyle: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          child: Text('+'),
                         ),
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Column(
+                    Container(
+                      height: 300,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.green, width: 2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 5,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: MapScreen(controller: _mapController),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Select Crop Options",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Duration desired",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
                       children: [
-                        Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                "Crops",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ]),
-                        const SizedBox(height: 10),
-                        Wrap(
-                          spacing: 8.0,
-                          runSpacing: 4.0,
-                          children: selectedCrops.map((crop) {
-                            int index = selectedCrops.indexOf(crop);
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xFFD9D9D9),
-                                border: Border.all(color: Colors.black),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 8,
-                                horizontal: 12,
-                              ),
-                              margin: const EdgeInsets.symmetric(vertical: 4),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '${crop['crop']} | ${crop['quantity']}',
-                                    style: TextStyle(color: Colors.black),
-                                  ),
-                                  IconButton(
-                                    icon:
-                                        Icon(Icons.close, color: Colors.black),
-                                    onPressed: () => _removeCrop(index),
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
+                        Container(
+                          width: 200,
+                          child: TextField(
+                            controller: _durationController,
+                            decoration: const InputDecoration(
+                              hintText: "Duration Desired",
+                              border: OutlineInputBorder(),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Container(
+                          width: 200,
+                          child: Dropdown(
+                            selectedItem: selectedTimeDropdownItem,
+                            listItem: timeList,
+                            onChanged: _onTimeDropdownChanged,
+                          ),
                         ),
                       ],
                     ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Crops",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 400,
+                              child: Dropdown(
+                                selectedItem: selectedCropDropdownItem,
+                                listItem: plantDictionary.keys.toList(),
+                                onChanged: _onCropDropdownChanged,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Container(
+                              width: 120,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: Colors.grey.shade400,
+                                  width: 2,
+                                ),
+                                color: Colors.white,
+                              ),
+                              child: TextField(
+                                controller: _quantityController,
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                  hintText: "Quantity",
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 20,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            ElevatedButton(
+                              onPressed: () => _addCrop(),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                                foregroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 5,
+                                  vertical: 5,
+                                ),
+                                textStyle: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              child: Text('+'),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        Column(
+                          children: [
+                            Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    "Selected Crops",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ]),
+                            const SizedBox(height: 10),
+                            Wrap(
+                              spacing: 8.0,
+                              runSpacing: 4.0,
+                              children: selectedCrops.map((crop) {
+                                int index = selectedCrops.indexOf(crop);
+                                return IntrinsicWidth(
+                                    child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(0xFFD9D9D9),
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 0,
+                                    horizontal: 4,
+                                  ),
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        '${crop['crop']}\n Nb units: ${crop['quantity']}',
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.close,
+                                            color: Colors.black),
+                                        onPressed: () => _removeCrop(index),
+                                      ),
+                                    ],
+                                  ),
+                                ));
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () => sendInfoToServer(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 40, vertical: 12),
+                          textStyle: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        child: Text('Finish'),
+                      ),
+                    )
                   ],
                 ),
-                const SizedBox(height: 20),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () => sendInfoToServer(),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                      textStyle:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    child: Text('Finish'),
-                  ),
-                )
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
