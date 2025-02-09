@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:mobile_client/models/analyse_request.dart';
 
 class ApiService {
-  final String baseUrl = dotenv.env['BASE_URL'] ?? 'http://10.0.2.2:3000';
+  final String baseUrl =
+      dotenv.env['SERVER_BASE_URL'] ?? 'http://10.0.2.2:3000';
 
   Future<List<PlantStat>> analyzePlants(AnalyzeRequest request) async {
     final response = await http
@@ -29,7 +30,7 @@ class ApiService {
     }
   }
 
-  Future<dynamic> getDates(TestConnectionDto request) async {
+  Future<List<Weather>> getDates(TestConnectionDto request) async {
     final response = await http.post(
       Uri.parse("$baseUrl/calendar"),
       headers: {
@@ -37,7 +38,7 @@ class ApiService {
       },
       body: jsonEncode(request.toJson()),
     );
-
+    print("Response status: ${response.statusCode}");
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {

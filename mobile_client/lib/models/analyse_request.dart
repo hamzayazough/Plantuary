@@ -44,10 +44,12 @@ class TestConnectionDto {
 
   TestConnectionDto({required this.interval, required this.address});
 
-  Map<String, dynamic> toJson() => {
-        "interval": interval,
-        "address": address.toJson(),
-      };
+  Map<String, dynamic> toJson() {
+    return {
+      'interval': interval,
+      'address': address.toJson(),
+    };
+  }
 }
 
 class PlantStat {
@@ -139,7 +141,7 @@ class PlantDescription {
         fruitingSeason: json["fruitingSeason"] ?? json["fruiting_season"] ?? "",
         maintenance: json["maintenance"],
         growthRate: json["growthRate"],
-        description: json["description"],
+        description: json["description"] ?? "",
         careLevel: json["careLevel"] ?? "",
         image: json["image"],
       );
@@ -165,5 +167,28 @@ class PlantReq {
       'id': id,
       'quantity': quantity,
     };
+  }
+}
+
+class Weather {
+  final String date;
+  final double temperatureC;
+  final double precipitationMM;
+  final double relativeHumidity;
+
+  Weather({
+    required this.date,
+    required this.temperatureC,
+    required this.precipitationMM,
+    required this.relativeHumidity,
+  });
+
+  factory Weather.fromJson(Map<String, dynamic> json) {
+    return Weather(
+      date: json["date"],
+      temperatureC: (json["temperatureC"] as num).toDouble(),
+      precipitationMM: (json["precipitationMM"] as num).toDouble(),
+      relativeHumidity: (json["relativeHumidity"] as num).toDouble(),
+    );
   }
 }

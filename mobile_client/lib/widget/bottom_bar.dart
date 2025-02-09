@@ -10,26 +10,41 @@ class BottomBar extends StatelessWidget {
     required this.onItemTapped,
   }) : super(key: key);
 
+  void _onItemTapped(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, '/home');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/calendar');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/plant_page');
+        break;
+    }
+    onItemTapped(index);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Plantuiaire',
+          label: 'Plantuary',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.calendar_today),
-          label: 'Calendrier',
+          label: 'Calendar',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.grass),
-          label: 'Mes cultures',
+          label: 'My crops',
         ),
       ],
       currentIndex: selectedIndex,
       selectedItemColor: Colors.black,
-      onTap: onItemTapped,
+      onTap: (index) => _onItemTapped(context, index),
     );
   }
 }

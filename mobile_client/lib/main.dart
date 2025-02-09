@@ -5,6 +5,7 @@ import 'package:mobile_client/models/environment.dart';
 import 'package:mobile_client/pages/form.dart';
 import 'package:mobile_client/pages/home.dart';
 import 'package:mobile_client/pages/plant_page.dart';
+import 'package:mobile_client/pages/calendar.dart';
 
 void main() async {
   await dotenv.load(fileName: Environment.fileName);
@@ -25,8 +26,8 @@ class MyApp extends StatelessWidget {
       routes: {
         "/home": (context) => HomePage(),
         "/search-map": (context) => SearchMapPage(),
-        "/results": (context) => SearchMapPage(),
         "/plant_page": (context) => PlantPage(),
+        "/calendar": (context) => CalendarPage(),
       },
     );
   }
