@@ -29,7 +29,7 @@ class ApiService {
     }
   }
 
-  Future<dynamic> getDates(TestConnectionDto request) async {
+  Future<List<Weather>> getDates(TestConnectionDto request) async {
     final response = await http.post(
       Uri.parse("$baseUrl/calendar"),
       headers: {
@@ -37,7 +37,7 @@ class ApiService {
       },
       body: jsonEncode(request.toJson()),
     );
-
+    print("Response status: ${response.statusCode}");
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {

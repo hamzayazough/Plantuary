@@ -18,13 +18,14 @@ class BottomBar extends StatelessWidget {
     Widget nextScreen;
     switch (index) {
       case 0:
-        nextScreen = HomePage();
+        Navigator.pushNamed(context, '/home');
         break;
       case 1:
-        nextScreen = const PlantPage();
+        Navigator.pushNamed(context, '/calendar');
         break;
-      default:
-        return;
+      case 2:
+        Navigator.pushNamed(context, '/plant_page');
+        break;
     }
     Navigator.pushReplacement(
       context,
@@ -40,15 +41,15 @@ class BottomBar extends StatelessWidget {
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Plantuaire',
+          label: 'Plantuary',
         ),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.calendar_today),
-        //   label: 'Calendrier',
-        // ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.calendar_today),
+          label: 'Calendar',
+        ),
         BottomNavigationBarItem(
           icon: Icon(Icons.grass),
-          label: 'Mes cultures',
+          label: 'My crops',
         ),
       ],
       currentIndex: selectedIndex,

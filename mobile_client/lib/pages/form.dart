@@ -154,8 +154,6 @@ class _SearchMapPageState extends State<SearchMapPage> {
 
     await storage.write('localData', localData);
 
-    print(localData);
-
     try {
       // Call your ApiService to get plant statistics.
       List<PlantStat> plantStats =
@@ -163,6 +161,7 @@ class _SearchMapPageState extends State<SearchMapPage> {
       print("Plant analysis received:");
 
       // Save the plant statistics in your service.
+      PlantDataService.instance.setInterval(nbJour, addressObj);
       PlantDataService.instance.setPlantStats(plantStats);
 
       // Navigate to the plant page.
