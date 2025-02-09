@@ -1,7 +1,5 @@
-import { Plant } from "./plant.interface";
 
 export interface Crops {
-    plant: Plant;
     description: string;
     duration: number;
 }

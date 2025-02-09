@@ -1,6 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { Section } from 'src/interfaces/section.interface';
 
 @Injectable()
 export class PlantService {
@@ -19,9 +20,21 @@ export class PlantService {
     }
   }
 
+  async getPlantGuideById(id: number): Promise<Section[]> {
+    try {
+      const url = `${this.API_URL}/species-care-guide-list?key=${this.API_KEY}&species_id=${id}`;
+      const response = await firstValueFrom(this.httpService.get(url));
+      console.log(response.data.section);
+      return response.data.section;
+    } catch (error) {
+      throw new HttpException('Failed to fetch plant guide', HttpStatus.BAD_REQUEST);
+    }
+  }
+
   async getPlantById(id: number): Promise<any> {
     try {
       const url = `${this.API_URL}/species/details/${id}?key=${this.API_KEY}`;
+      console.log(url);
       const response = await firstValueFrom(this.httpService.get(url));
       return response.data;
     } catch (error) {
@@ -29,14 +42,4 @@ export class PlantService {
     }
   }
 
-  async getPlantGuideById(id: number): Promise<any> {
-    try {
-      const url = `${this.API_URL}/species-care-guide-list?key=${this.API_KEY}&species_id=${id}`;
-      const response = await firstValueFrom(this.httpService.get(url));
-      return response.data;
-    } catch (error) {
-      throw new HttpException('Failed to fetch plant guide', HttpStatus.BAD_REQUEST);
-    }
-  }
 }
-

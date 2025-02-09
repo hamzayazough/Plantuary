@@ -1,17 +1,16 @@
-import { Controller, Get, HttpException, HttpStatus, Query } from '@nestjs/common';
-import { MeteomaticsService } from './services/meteomatics/meteomatics.service';
+import { Controller, Get, HttpException, HttpStatus, Query, Body, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { GroqService } from './services/groq/groq.service';
-import { PlantService } from './services/plant/plant.service';
+import { Address } from './interfaces/address.interface';
 import Groq from 'groq-sdk';
-
+import { LogicService } from './services/logic/logic.service';
+import { TestConnectionDto } from './interfaces/report.interface';
+import { AnalyzeRequest } from './interfaces/analyze.interface';
+import { Section } from './interfaces/section.interface';
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly meteomaticsService: MeteomaticsService,
-    private readonly groq: GroqService,
-    private readonly plantService: PlantService
+    private readonly logicService: LogicService
   ) {}
 
   @Get()
@@ -19,12 +18,22 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('test')
-  async testConnection(): Promise<string> {
+  @Post('analyze-plants')
+  async analyzePlants(@Body() analyzeRequest: AnalyzeRequest): Promise<any> {
     try {
-      console.log('Testing connection with Meteomatics API');
-      const token = await this.meteomaticsService.getToken();
-      return `Connection successful. Token: ${token}`;
+      console.log('Analyzing plants', analyzeRequest);
+      return await this.logicService.analyzePlants(analyzeRequest);
+    } catch (error) {
+      throw new HttpException('Error analyzing plants', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Post('test')
+  async testConnection(@Body() testConnectionDto: TestConnectionDto): Promise<any> {
+    try {
+      const { interval, address } = testConnectionDto;
+      console.log('Testing connection with Meteomatics API', interval, address);
+      return await this.logicService.getWeatherVariation(interval, address);
     } catch (error) {
       throw new HttpException(
         'Error testing connection with Meteomatics API',
@@ -33,31 +42,5 @@ export class AppController {
     }
   }
 
-  @Get('groq')
-  async getGroqChatCompletion(): Promise<Groq.Chat.Completions.ChatCompletion> {
-    try {
-      console.log('Getting GROQ chat completion');
-      const completion = await this.groq.getGroqChatCompletion();
-      return completion;
-    } catch (error) {
-      throw new HttpException(
-        'Error getting GROQ chat completion',
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
-    }
-  }
 
-  @Get('plants')
-  async getPlants(@Query('name') name: string): Promise<any> {
-    try {
-      console.log(`Fetching plants with name: ${name}`);
-      const plants = await this.plantService.getPlantsByName(name);
-      return plants;
-    } catch (error) {
-      throw new HttpException(
-        'Error fetching plants',
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
-    }
-  }
 }

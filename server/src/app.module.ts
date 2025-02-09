@@ -6,10 +6,11 @@ import { MeteomaticsController } from './controllers/meteomatics/meteomatics.con
 import { GroqService } from './services/groq/groq.service';
 import { PlantService } from './services/plant/plant.service';
 import { HttpModule } from '@nestjs/axios';
+import { LogicService } from './services/logic/logic.service';
 
 @Module({
   imports: [HttpModule],
-  controllers: [AppController, MeteomaticsController],
-  providers: [AppService, MeteomaticsService, GroqService, PlantService],
+  controllers: [AppController],
+  providers: [AppService, MeteomaticsService, GroqService, PlantService, LogicService],
 })
 export class AppModule {}

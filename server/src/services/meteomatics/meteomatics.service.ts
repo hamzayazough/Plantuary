@@ -2,6 +2,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import axios from 'axios';
 import * as dotenv from 'dotenv';
+import { Address } from 'src/interfaces/address.interface';
 
 dotenv.config();
 
@@ -33,4 +34,33 @@ export class MeteomaticsService {
             throw new HttpException("Error fetching Meteomatics token", HttpStatus.UNAUTHORIZED);
         }
     }
+
+    async getWeatherVariation(days: number, address: Address): Promise<any> {
+        try {
+            const token = await this.getToken();
+            const now = new Date().toISOString();
+            const futureDate = new Date();
+    
+            const url = `https://api.meteomatics.com/${now}P${days}D:PT24H/t_2m:C,precip_24h:mm,relative_humidity_2m:p/${address.latitude},${address.longitude}/json?access_token=${token}`;
+            console.log(url);
+            const response = await axios.get(url);
+    
+            const data = response.data.data;
+            const dates = data[0].coordinates[0].dates.map((dateObj: any) => dateObj.date);
+    
+            const transformedData = dates.map((date: string, index: number) => {
+                return {
+                    date: date,
+                    "temp:C": data[0].coordinates[0].dates[index].value,
+                    "precip_24h:mm": data[1].coordinates[0].dates[index].value,
+                    "relative_humidity_2m:p": data[2].coordinates[0].dates[index].value,
+                };
+            });
+    
+            return transformedData;
+        } catch (error) {
+            throw new HttpException("Error fetching weather variation", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
