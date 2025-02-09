@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Plantuaire',
+              'Plantuary',
               style: TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              child: Text('Plannifier!'),
+              child: Text('Weather Track your Crops ->'),
             ),
           ],
         ),
